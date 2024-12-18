@@ -1,0 +1,8 @@
+# Default ignored files
+/../../../:crucible/.idea/shelf/
+/../../../:crucible/.idea/workspace.xml
+# Editor-based HTTP Client requests
+/../../../:crucible/.idea/httpRequests/
+# Datasource local storage ignored files
+/../../../:crucible/.idea/dataSources/
+/../../../:crucible/.idea/dataSources.local.xml

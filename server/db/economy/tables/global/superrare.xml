@@ -1,0 +1,5 @@
+<superrare>
+    <!-- Example id = item, minAmt = minimum amount dropped,            -->
+    <!-- Example maxAmt = maximum amount dropped, weight = probability  -->
+    <!-- <item id="995" minAmt="3000" maxAmt="3000" weight="12"/>       -->
+</superrare>
