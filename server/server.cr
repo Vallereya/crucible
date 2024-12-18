@@ -1,5 +1,4 @@
 require "socket"
-require "json"
 require "yaml"
 require "log"
 require "path"
@@ -10,6 +9,7 @@ require "./modules/server_constants"
 require "./modules/reactor"
 require "./src/main/core/world/game_settings"
 require "./src/main/core/world/game_world"
+require "./worlds/config"
 
 class Server
     VERSION = "0.1.0"
@@ -20,7 +20,7 @@ class Server
     property reactor : Reactor?
     property network_reachability : NetworkReachability
 
-    @config : Hash(String, JSON::Any)
+    @config : YAML::Any 
 
     def initialize
         @start_time = Time.utc
@@ -28,7 +28,7 @@ class Server
         @running = false
         @reactor = nil
         @network_reachability = NetworkReachability::Reachable
-        @config = Hash(String, JSON::Any).new
+        @config = YAML.parse("{}")
     end
 
     def self.main(args : Array(String))
@@ -54,28 +54,27 @@ class Server
     end
 
     private def parse_config(args)
-        # Get the directory where server.cr is located, cause is being stupid.
         server_dir = Path[__FILE__].parent
-
-        # Construct path to config file relative to server directory, cause is being stupid.
-        default_config = server_dir.join("worlds", "default.conf")
+        default_config = server_dir.join("worlds", "default.yml")
         config_file = args.empty? ? default_config.to_s : args[0]
-
-        Log.info { "Using config file: #{config_file}" }
-        config_content = File.read(config_file)
-        @config = JSON.parse(config_content).as_h
-        Log.info { "Configuration loaded successfully." }
-    rescue e : JSON::ParseException
-        Log.error { "Failed to parse config file: #{e.message}" }
+        
+        @config = Config::Parser.load(config_file)
+    rescue e : File::NotFoundError
+        Log.error { "Config file not found: #{config_file}" }
         raise e
+
     rescue e : File::NotFoundError
         Log.error { "Config file not found: #{config_file}" }
         raise e
     end
 
     private def initialize_game_world
-        GameWorld.initialize(@config)
+        world_config = @config.as_h
+        GameWorld.initialize(world_config)
         Log.info { "Game World initialized successfully." }
+    rescue e : Exception
+        Log.error { "Failed to initialize game world: #{e.message}" }
+        raise e
     end
 
     private def setup_networking
