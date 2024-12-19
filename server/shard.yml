@@ -1,8 +1,8 @@
 name: server
 version: 0.1.0
 
-# authors:
-#   - name <email@example.com>
+authors:
+  - Vallereya <v@vallereya.com>
 
 # description: |
 #   This is the game server for The Crucible.
