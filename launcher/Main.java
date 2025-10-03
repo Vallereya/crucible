@@ -8,7 +8,8 @@ import javax.swing.*;
 public class Main {
     private static Process serverProcess;
     private static Process clientProcess;
-    private static final int SERVER_START_WAIT_TIME = 5000; // 5 seconds to wait for server startup
+     // This will wait for 5 seconds for server startup.
+    private static final int SERVER_START_WAIT_TIME = 5000;
     
     public static void main(String[] args) {
         JFrame window = new JFrame("Crucible Launcher");
@@ -31,18 +32,18 @@ public class Main {
     
     public static void launchGame() {
         try {
-            // Get the current working directory and parent directory
+            // Get the current working directory and parent directory.
             String currentDir = System.getProperty("user.dir");
             File parentDir = new File(currentDir).getParentFile();
             
-            // Launch server first
+            // Launch server first.
             launchServer(parentDir);
             
-            // Wait for server to start
+            // Wait for server to start.
             System.out.println("Waiting for server to initialize...");
             Thread.sleep(SERVER_START_WAIT_TIME);
             
-            // Then launch client
+            // Then launch the client.
             launchClient(parentDir);
             
         } catch (Exception e) {
@@ -75,7 +76,7 @@ public class Main {
         
         serverProcess = serverBuilder.start();
         
-        // Read server output in separate thread
+        // Read server output in a separate thread.
         new Thread(() -> {
             try {
                 BufferedReader reader = new BufferedReader(
@@ -90,9 +91,10 @@ public class Main {
             }
         }).start();
         
-        // Check if server process died immediately
+        // Check if server process died immediately.
         try {
-            Thread.sleep(1000); // Wait a bit to check if process stays alive
+            // Wait a bit to check if process stays alive.
+            Thread.sleep(1000);
             if (!isProcessAlive(serverProcess)) {
                 throw new IOException("Server process failed to start properly");
             }
@@ -121,7 +123,7 @@ public class Main {
         
         clientProcess = clientBuilder.start();
         
-        // Read client output in separate thread
+        // Read client output in separate thread.
         new Thread(() -> {
             try {
                 BufferedReader reader = new BufferedReader(
