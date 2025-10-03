@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="src/assets/icons/crucible_text_logo.png" width="100"/>
+    <img src="src/assets/icons/crucible_text_logo.png" width="250"/>
 </p>
 <br>
 <p align="center">
