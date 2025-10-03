@@ -48,7 +48,8 @@
 1. Compile the Server.
 2. Compile the Client.
 3. Compile the Launcher.
-4. Open Project and then be confused.
+4. Run Server; keep open.
+5. Run Launcher.
 
 ## 📁 Game Structure
 
